@@ -20,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -92,7 +93,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         //设计当前记录创建人id和修改人Id
         // TODO 后期改为当前登录用户的Id
 
-        System.out.println("service当前线程Id："+Thread.currentThread().getId());
+        System.out.println("service当前线程Id：" + Thread.currentThread().getId());
         employee.setCreateUser(BaseContext.getCurrentId());
         employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.insert(employee);
@@ -100,6 +101,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * 分页查询
+     *
      * @param employeePageQueryDTO
      * @return
      */
@@ -111,5 +113,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         long total = queryResult.getTotal();
         PageResult pageResult = new PageResult(total, records);
         return pageResult;
+    }
+
+    /**
+     * 启用或禁用员工账号
+     *
+     * @param status
+     * @param id
+     */
+    public void startOrStop(Integer status, long id) {
+        LocalDateTime updateTime = LocalDateTime.now();
+        Long currentId = BaseContext.getCurrentId();
+        Employee employee = Employee.builder()
+                .status(status)
+                .id(id)
+                .updateTime(updateTime)
+                .updateUser(currentId)
+                .build();
+        employeeMapper.startOrStop(employee);
     }
 }

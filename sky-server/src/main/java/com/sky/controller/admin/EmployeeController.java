@@ -78,24 +78,41 @@ public class EmployeeController {
 
     /**
      * 新增员工
+     *
      * @param employeeDTO
      * @return
      */
     @PostMapping("")
     @ApiOperation("新增员工")
-    public Result save(@RequestBody EmployeeDTO employeeDTO){
-        log.info("新增员工{}",employeeDTO);
-        System.out.println("controllor当前线程Id："+Thread.currentThread().getId());
+    public Result save(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("新增员工{}", employeeDTO);
+        System.out.println("controllor当前线程Id：" + Thread.currentThread().getId());
         employeeService.save(employeeDTO);
         return Result.success();
     }
-    @GetMapping("page")
+
+    @GetMapping("/page")
     @ApiOperation("员工分页查询")
-    public Result employeePageQuery(EmployeePageQueryDTO employeePageQueryDTO){
+    public Result employeePageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
         //分页查询
-        log.info("员工分页查询，参数为：{}",employeePageQueryDTO);
+        log.info("员工分页查询，参数为：{}", employeePageQueryDTO);
         PageResult pageResult = employeeService.employeePageQuery(employeePageQueryDTO);
         Result<PageResult> pageQueryResult = Result.success(pageResult);
         return pageQueryResult;
+    }
+
+    /**
+     * 启用禁用员工账号
+     *
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("启用禁用员工账号")
+    public Result startOrStop(@PathVariable Integer status, Integer id) {
+        log.info("status:{},id:{}", status, id);
+        employeeService.startOrStop(status,id);
+        return Result.success();
     }
 }

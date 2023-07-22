@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface EmployeeMapper {
 
@@ -27,4 +29,8 @@ public interface EmployeeMapper {
 
 
     void startOrStop(Employee employee);
+
+    List<Employee> employeeSelect(Employee employee);
+    
+    void updateEmployee(Employee employee);
 }

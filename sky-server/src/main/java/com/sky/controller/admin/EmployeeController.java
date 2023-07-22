@@ -13,6 +13,7 @@ import com.sky.utils.JwtUtil;
 import com.sky.vo.EmployeeLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -110,9 +111,31 @@ public class EmployeeController {
      */
     @PostMapping("/status/{status}")
     @ApiOperation("启用禁用员工账号")
-    public Result startOrStop(@PathVariable Integer status, Integer id) {
+    public Result startOrStop(@PathVariable Integer status, Long id) {
         log.info("status:{},id:{}", status, id);
-        employeeService.startOrStop(status,id);
+        employeeService.startOrStop(status, id);
+        return Result.success();
+    }
+
+    /**
+     * 根据id查询员工
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("{id}")
+    @ApiOperation("根据id查询员工")
+    public Result<Employee> employeeSelect(@PathVariable Long id) {
+        log.info("查询的员工id为{}", id);
+        Employee employee = employeeService.employeeSelect(id);
+        return Result.success(employee);
+    }
+
+    @PutMapping("")
+    @ApiOperation("编辑员工")
+    public Result updateEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("更新后的对象属性值为:{}", employeeDTO);
+        employeeService.updateEmployee(employeeDTO);
         return Result.success();
     }
 }

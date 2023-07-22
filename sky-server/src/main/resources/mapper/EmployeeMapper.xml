@@ -35,6 +35,40 @@
             id = #{id}
         </where>
     </update>
+
+    <update id="updateEmployee" parameterType="Employee">
+        update employee
+        <set>
+            <if test="name!=null">
+                name = #{name},
+            </if>
+            <if test="username!=null">
+                username = #{username},
+            </if>
+            <if test="phone!=null">
+                phone = #{phone},
+            </if>
+            <if test="sex!=null">
+                sex = #{sex},
+            </if>
+            <if test="idNumber!=null">
+                id_number = #{idNumber},
+            </if>
+            <if test="status !=null">
+                status = #{status},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="updateUser != null">
+                update_user = #{updateUser}
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
     <!--分页查询-->
     <select id="pageQuery" resultType="com.sky.entity.Employee">
         select * from employee
@@ -44,5 +78,33 @@
             </if>
         </where>
         order by create_time desc
+    </select>
+    <select id="employeeSelect" resultType="com.sky.entity.Employee">
+        select *
+        from employee
+        <where>
+            1=1
+            <if test="id!=null and id!=''">
+                 and id = #{id}
+            </if>
+            <if test="username!=null and username!=''">
+                and user_name = #{username}
+            </if>
+            <if test="name!=null and name!=''">
+                and name = #{name}
+            </if>
+            <if test="phone!=null and phone!=''">
+                and phone = #{phone}
+            </if>
+            <if test="sex!=null and sex!=''">
+                and sex = #{sex}
+            </if>
+            <if test="idNumber!=null and idNumber!=''">
+                and id_number = #{idNumber}
+            </if>
+            <if test="status!=null and status!=''">
+                and status = #{status}
+            </if>
+        </where>
     </select>
 </mapper>

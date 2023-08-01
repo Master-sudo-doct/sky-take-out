@@ -7,6 +7,8 @@ import com.sky.enumeration.OperationType;
 import com.sky.result.PageResult;
 import com.sky.vo.DishVO;
 
+import java.util.List;
+
 public interface DishService {
     void addDish(DishDTO dishDTO);
 
@@ -14,7 +16,7 @@ public interface DishService {
 
     DishVO selectbyId(Integer id);
 
-    DishVO selectbyCateId(Long categoryId);
+    List<DishVO> selectbyCateId(Long categoryId);
 
     boolean update(DishDTO dishDTO);
     boolean updateDish(Integer status,Integer id);

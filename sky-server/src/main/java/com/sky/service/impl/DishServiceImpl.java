@@ -2,12 +2,16 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sky.constant.MessageConstant;
+import com.sky.constant.StatusConstant;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
+import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.DishFlavorMapper;
 import com.sky.mapper.DishMapper;
+import com.sky.mapper.SetmealDishMapper;
 import com.sky.result.PageResult;
 import com.sky.service.DishService;
 import com.sky.vo.DishVO;
@@ -26,6 +30,8 @@ public class DishServiceImpl implements DishService {
     DishMapper dishMapper;
     @Autowired
     DishFlavorMapper dishFlavorMapper;
+    @Autowired
+    SetmealDishMapper setmealDishMapper;
 
     @Transactional
     public void addDish(DishDTO dishDTO) {
@@ -62,15 +68,11 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public DishVO selectbyCateId(Long categoryId) {
+    public List<DishVO> selectbyCateId(Long categoryId) {
         DishVO dishVO = new DishVO();
         dishVO.setCategoryId(categoryId);
         List<DishVO> result = dishMapper.select(dishVO);
-        DishVO dish = null;
-        if (result != null && result.size() > 0) {
-            dish = result.get(0);
-        }
-        return dish;
+        return result;
     }
 
     @Transactional
@@ -101,6 +103,21 @@ public class DishServiceImpl implements DishService {
 
     @Transactional
     public boolean delete(Integer[] ids) {
+        //菜品是否在套餐表里存在，若存在，则不能删除
+        for (Integer dishId : ids) {
+            Integer count = setmealDishMapper.countByDishId(Long.valueOf(dishId));
+            if (count > 0) {
+                throw new DeletionNotAllowedException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);
+            }
+            //判断菜品是否处于起售中状态，若处于，则不能删除
+            DishVO dish = new DishVO();
+            dish.setId(Long.valueOf(dishId));
+            List<DishVO> dishVOList = dishMapper.select(dish);
+            DishVO dishVO = dishVOList.get(0);
+            if (dishVO.getStatus().equals(StatusConstant.ENABLE)) {
+                throw new DeletionNotAllowedException(MessageConstant.DISH_ON_SALE);
+            }
+        }
         for (Integer id : ids) {
             dishMapper.delete(Long.valueOf(id));
             dishFlavorMapper.batchDelete(Long.valueOf(id));

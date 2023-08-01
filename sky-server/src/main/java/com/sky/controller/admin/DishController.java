@@ -13,10 +13,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/admin/dish")
-@Api("菜品相关接口")
+@Api(tags = "菜品相关接口")
 public class DishController {
     @Autowired
     DishService dishService;
@@ -43,11 +45,11 @@ public class DishController {
         DishVO dishVO = dishService.selectbyId(id);
         return Result.success(dishVO);
     }
-
+    //TODO 修改为接口文档所定义返回
     @GetMapping("/list")
     @ApiOperation("根据分类id查询菜品")
-    public Result<DishVO> querybycateId(Long categoryId) {
-        DishVO dishVO = dishService.selectbyCateId(categoryId);
+    public Result<List<DishVO>> querybycateId(Long categoryId) {
+        List<DishVO> dishVO = dishService.selectbyCateId(categoryId);
         return Result.success(dishVO);
     }
     @PutMapping

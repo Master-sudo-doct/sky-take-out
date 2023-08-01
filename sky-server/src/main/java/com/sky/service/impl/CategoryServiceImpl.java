@@ -31,8 +31,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void updateCatalog(Category category) {
-        category.setUpdateTime(LocalDateTime.now());
-        category.setUpdateUser(BaseContext.getCurrentId());
+//        category.setUpdateTime(LocalDateTime.now());
+//        category.setUpdateUser(BaseContext.getCurrentId());
         categoryMapper.updateCatalog(category);
     }
 
@@ -51,8 +51,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void createCategory(Category category) {
-        category.setCreateTime(LocalDateTime.now());
-        category.setCreateUser(BaseContext.getCurrentId());
+//        category.setCreateTime(LocalDateTime.now());
+//        category.setCreateUser(BaseContext.getCurrentId());
         categoryMapper.insertCategory(category);
     }
 

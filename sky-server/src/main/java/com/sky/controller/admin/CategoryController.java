@@ -1,5 +1,6 @@
 package com.sky.controller.admin;
 
+import com.sky.constant.StatusConstant;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
 import com.sky.result.Result;
@@ -52,6 +53,7 @@ public class CategoryController {
         log.info("创建的分类为{}", categoryDTO.toString());
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO, category);
+        category.setStatus(StatusConstant.ENABLE);
         categoryService.createCategory(category);
         return Result.success();
     }

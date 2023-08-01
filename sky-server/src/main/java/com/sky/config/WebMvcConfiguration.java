@@ -71,6 +71,11 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         log.info("开始设置静态资源映射.....");
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        //文件上传回显
+        log.info("设置文件映射");
+        registry.addResourceHandler("/api/file/**")//虚拟路径
+                .addResourceLocations("file:"+"/Users/caizhenghua/Desktop/苍穹外卖/资料/day01/后端初始工程/sky-take-out/sky" +
+                        "-server/images/");//绝对路径
     }
 
     /**

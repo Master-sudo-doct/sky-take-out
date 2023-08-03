@@ -80,4 +80,10 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
     }
+
+    @Override
+    public List<Category> userSelectCatelog(Category category) {
+        List<Category> result = categoryMapper.userSelectByStatus(category);
+        return result;
+    }
 }

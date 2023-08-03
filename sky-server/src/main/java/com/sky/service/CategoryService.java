@@ -19,4 +19,6 @@ public interface CategoryService {
     List<Category> selectCatelog(CategoryPageQueryDTO categoryPageQueryDTO);
 
     void deleteCatelog(Long id);
+
+    List<Category> userSelectCatelog(Category category);
 }

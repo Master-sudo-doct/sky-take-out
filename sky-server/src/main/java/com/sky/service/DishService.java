@@ -16,7 +16,7 @@ public interface DishService {
 
     DishVO selectbyId(Integer id);
 
-    List<DishVO> selectbyCateId(Long categoryId);
+    List<DishVO> selectbyCateId(DishDTO dishDTO);
 
     boolean update(DishDTO dishDTO);
     boolean updateDish(Integer status,Integer id);

@@ -121,4 +121,19 @@ public class SetmealServiceImpl implements SetmealService {
             setmealDishMapper.deleteBatch(Long.valueOf(id));
         }
     }
+
+    @Override
+    public List<SetmealVO> selectByCategoryId(Integer categoryId) {
+        SetmealPageQueryDTO setmealDTO = new SetmealPageQueryDTO();
+        setmealDTO.setCategoryId(categoryId);
+        setmealDTO.setStatus(StatusConstant.ENABLE);
+        List<SetmealVO> setmealVO = setmealMapper.select(setmealDTO);
+        return setmealVO;
+    }
+
+    @Override
+    public List<SetmealDish> selectBySetmealId(Integer id) {
+        List<SetmealDish> setmealDishList = setmealDishMapper.selectBySetmealId(id);
+        return setmealDishList;
+    }
 }

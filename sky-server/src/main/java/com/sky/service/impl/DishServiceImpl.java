@@ -68,9 +68,9 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public List<DishVO> selectbyCateId(Long categoryId) {
+    public List<DishVO> selectbyCateId(DishDTO dishDTO) {
         DishVO dishVO = new DishVO();
-        dishVO.setCategoryId(categoryId);
+        BeanUtils.copyProperties(dishDTO,dishVO);
         List<DishVO> result = dishMapper.select(dishVO);
         return result;
     }

@@ -27,10 +27,10 @@
         <where>
             <if test="id!=null and id!=''">and d.id = #{id}</if>
             <if test="name!=null and name!=''">and d.name like concat('%',#{name},'%')</if>
-            <if test="categoryId!=null and categoryId!=''"> and category_id=#{categoryId}</if>
-            <if test="status!=null"> and status=#{status}</if>
+            <if test="categoryId!=null and categoryId!=''"> and d.category_id=#{categoryId}</if>
+            <if test="status!=null"> and d.status=#{status}</if>
         </where>
-#         order by create_time desc;
+        order by create_time desc
     </select>
     <update id="update" parameterType="Dish">
         update dish
@@ -46,7 +46,6 @@
         </set>
         where id = #{id}
     </update>
-
 
     <delete id="delete">
         delete from dish

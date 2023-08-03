@@ -45,11 +45,13 @@ public class DishController {
         DishVO dishVO = dishService.selectbyId(id);
         return Result.success(dishVO);
     }
-    //TODO 修改为接口文档所定义返回
+
     @GetMapping("/list")
     @ApiOperation("根据分类id查询菜品")
     public Result<List<DishVO>> querybycateId(Long categoryId) {
-        List<DishVO> dishVO = dishService.selectbyCateId(categoryId);
+        DishDTO dishDTO = new DishDTO();
+        dishDTO.setCategoryId(categoryId);
+        List<DishVO> dishVO = dishService.selectbyCateId(dishDTO);
         return Result.success(dishVO);
     }
     @PutMapping
